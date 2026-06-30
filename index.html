@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A premium, interactive portfolio showcasing a custom 3D mechanical keyboard — crafted with precision and passion."
+    />
+    <meta name="theme-color" content="#050505" />
+    <title>VEX — Custom 3D Mechanical Keyboard</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- GSAP Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- GSAP ScrollTrigger Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+
+    <!-- =============================================
+         LOADER OVERLAY
+    ============================================== -->
+    <div id="loader" class="loader" aria-label="Loading assets" role="status">
+      <div class="loader__inner">
+        <div class="loader__logo">VEX</div>
+        <div class="loader__bar-track">
+          <div class="loader__bar" id="loader-bar"></div>
+        </div>
+        <div class="loader__label" id="loader-label">Loading frames… 0%</div>
+      </div>
+    </div>
+
+    <!-- =============================================
+         NAV
+    ============================================== -->
+    <nav id="nav" class="nav" aria-label="Primary navigation">
+      <div class="nav__brand">VEX</div>
+      <ul class="nav__links">
+        <li><a href="#explode-section" class="nav__link">Explore</a></li>
+        <li><a href="#features"        class="nav__link">Features</a></li>
+        <li><a href="#specs"           class="nav__link">Specs</a></li>
+        <li><a href="#gallery"         class="nav__link">Gallery</a></li>
+      </ul>
+    </nav>
+
+    <!-- =============================================
+         HERO SECTION
+    ============================================== -->
+    <section id="hero" class="section section--hero">
+      <div class="container">
+        <div class="hero__eyebrow">Custom 3D Mechanical Keyboard</div>
+        <h1 class="hero__title">
+          Built for<br />
+          <span class="hero__title--accent">Perfectionists.</span>
+        </h1>
+        <p class="hero__subtitle">
+          Every switch. Every layer. Every detail — engineered to feel as good
+          as it looks.
+        </p>
+        <a href="#explode-section" id="hero-cta" class="btn btn--primary">
+          Explore the Build
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Ambient grid lines -->
+      <div class="hero__grid" aria-hidden="true"></div>
+    </section>
+
+    <!-- =============================================
+         SCROLL-JACKED EXPLOSION SECTION
+    ============================================== -->
+    <section id="explode-section" class="explode-section">
+
+      <!-- Sticky canvas wrapper — stays fixed while scroll runway is consumed -->
+      <div class="explode-sticky" id="explode-sticky">
+
+        <!-- The canvas itself -->
+        <canvas
+          id="explode-canvas"
+          class="explode-canvas"
+          width="1920"
+          height="1080"
+          aria-label="Interactive 3D keyboard explosion animation"
+        ></canvas>
+
+        <!-- Floating callout overlays -->
+
+        <!-- Callout 1: first 25% of scroll — left -->
+        <div class="callout callout--left" id="callout-1" aria-hidden="true">
+          <div class="callout__line"></div>
+          <div class="callout__body">
+            <span class="callout__tag">01 — Acoustics</span>
+            <p class="callout__headline">Acoustic Dampening</p>
+            <p class="callout__detail">Poron Foam Matrix eliminates chassis ping.</p>
+          </div>
+        </div>
+
+        <!-- Callout 2: middle 50% of scroll — right -->
+        <div class="callout callout--right" id="callout-2" aria-hidden="true">
+          <div class="callout__body">
+            <span class="callout__tag">02 — Feel</span>
+            <p class="callout__headline">Custom Actuation</p>
+            <p class="callout__detail">Lubricated linear switches for fluid keypresses.</p>
+          </div>
+          <div class="callout__line"></div>
+        </div>
+
+        <!-- Callout 3: final 75% of scroll — bottom-left -->
+        <div class="callout callout--bottom-left" id="callout-3" aria-hidden="true">
+          <div class="callout__line callout__line--vertical"></div>
+          <div class="callout__body">
+            <span class="callout__tag">03 — Structure</span>
+            <p class="callout__headline">The Foundation</p>
+            <p class="callout__detail">Matte Polycarbonate CNC-milled chassis.</p>
+          </div>
+        </div>
+
+        <!-- Vertical scroll progress indicator -->
+        <div class="explode-progress" id="explode-progress" aria-hidden="true">
+          <div class="explode-progress__track">
+            <div class="explode-progress__fill" id="progress-fill"></div>
+          </div>
+          <span class="explode-progress__label" id="progress-label">Scroll to explore</span>
+        </div>
+
+        <!-- Corner bracket decorations -->
+        <div class="corner corner--tl" aria-hidden="true"></div>
+        <div class="corner corner--tr" aria-hidden="true"></div>
+        <div class="corner corner--bl" aria-hidden="true"></div>
+        <div class="corner corner--br" aria-hidden="true"></div>
+
+      </div><!-- /.explode-sticky -->
+    </section><!-- /#explode-section -->
+
+    <!-- =============================================
+         FEATURES SECTION
+    ============================================== -->
+    <section id="features" class="section section--features">
+      <div class="container">
+        <h2 class="section__title">Why This Board?</h2>
+        <div class="features__grid">
+
+          <!-- Card 1: Switches -->
+          <div class="feature-card" id="feature-switches">
+            <div class="feature-card__icon" aria-hidden="true">
+              <!-- Lucide: sliders-horizontal — represents adjustable actuation -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="1.5"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <line x1="21" y1="4" x2="14" y2="4"/>
+                <line x1="10" y1="4" x2="3"  y2="4"/>
+                <line x1="21" y1="12" x2="12" y2="12"/>
+                <line x1="8"  y1="12" x2="3"  y2="12"/>
+                <line x1="21" y1="20" x2="16" y2="20"/>
+                <line x1="12" y1="20" x2="3"  y2="20"/>
+                <circle cx="12" cy="4"  r="2"/>
+                <circle cx="10" cy="12" r="2"/>
+                <circle cx="14" cy="20" r="2"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Linear Actuation</h3>
+            <p class="feature-card__body">
+              Hand-lubricated linear switches with custom spring weights provide
+              a buttery smooth, friction-free typing experience.
+            </p>
+          </div>
+
+          <!-- Card 2: Chassis -->
+          <div class="feature-card" id="feature-case">
+            <div class="feature-card__icon" aria-hidden="true">
+              <!-- Lucide: layers — represents stacked chassis construction -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="1.5"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                <polyline points="2 17 12 22 22 17"/>
+                <polyline points="2 12 12 17 22 12"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Polycarbonate Chassis</h3>
+            <p class="feature-card__body">
+              CNC-milled matte polycarbonate. Dense, weighted, and structurally
+              rigid to provide the ultimate acoustic foundation.
+            </p>
+          </div>
+
+          <!-- Card 3: Acoustics -->
+          <div class="feature-card" id="feature-pcb">
+            <div class="feature-card__icon" aria-hidden="true">
+              <!-- Lucide: activity / waveform — represents acoustic dampening -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="1.5"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Acoustic Dampening</h3>
+            <p class="feature-card__body">
+              A custom PORON foam matrix eliminates unwanted chassis resonance,
+              delivering a deep, signature 'thock' with every keystroke.
+            </p>
+          </div>
+
+          <!-- Card 4: Lighting -->
+          <div class="feature-card" id="feature-rgb">
+            <div class="feature-card__icon" aria-hidden="true">
+              <!-- Lucide: zap — clean minimal spark/light icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="1.5"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Ambient Illumination</h3>
+            <p class="feature-card__body">
+              Crisp, per-key backlighting tuned to an icy cyan aesthetic. Fully
+              programmable via QMK/VIA to match your workspace.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================
+         SPECS SECTION
+    ============================================== -->
+    <section id="specs" class="section section--specs">
+      <div class="container">
+        <h2 class="section__title">Technical Specs</h2>
+        <div class="specs__table" id="specs-table">
+          <div class="spec-row">
+            <span class="spec-row__label">Layout</span>
+            <span class="spec-row__value">65% (68 keys)</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Case Material</span>
+            <span class="spec-row__value">CNC Aluminium 6063</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Switches</span>
+            <span class="spec-row__value">Holy Pandas (67g)</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Keycaps</span>
+            <span class="spec-row__value">GMK Nord — Cherry Profile</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">PCB</span>
+            <span class="spec-row__value">Hot-Swap, USB-C, QMK/VIA</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Plate</span>
+            <span class="spec-row__value">Polycarbonate (flex cuts)</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Gasket Mount</span>
+            <span class="spec-row__value">Yes — 8 silicone gaskets</span>
+          </div>
+          <div class="spec-row">
+            <span class="spec-row__label">Weight</span>
+            <span class="spec-row__value">~1.8 kg</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================
+         GALLERY SECTION
+    ============================================== -->
+    <section id="gallery" class="section section--gallery">
+      <div class="container">
+        <h2 class="section__title">Gallery</h2>
+        <p class="section__subtitle">
+          Every angle tells a different story.
+        </p>
+        <div class="gallery__grid" id="gallery-grid">
+
+          <div class="gallery__card" id="gallery-top">
+            <div class="gallery__card-inner">
+              <img src="assets/keyboard_frames/Top.png" alt="Top view of the VEX mechanical keyboard" loading="lazy" />
+              <div class="gallery__overlay">
+                <div class="gallery__overlay-content">
+                  <span class="gallery__label">TOP VIEW</span>
+                  <span class="gallery__label-line"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gallery__card" id="gallery-side">
+            <div class="gallery__card-inner">
+              <img src="assets/keyboard_frames/Side.png" alt="Side profile of the VEX mechanical keyboard" loading="lazy" />
+              <div class="gallery__overlay">
+                <div class="gallery__overlay-content">
+                  <span class="gallery__label">SIDE PROFILE</span>
+                  <span class="gallery__label-line"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gallery__card" id="gallery-keys">
+            <div class="gallery__card-inner">
+              <img src="assets/keyboard_frames/Keys.png" alt="Close-up of the VEX keycap detail" loading="lazy" />
+              <div class="gallery__overlay">
+                <div class="gallery__overlay-content">
+                  <span class="gallery__label">KEYCAP DETAIL</span>
+                  <span class="gallery__label-line"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gallery__card" id="gallery-switch">
+            <div class="gallery__card-inner">
+              <img src="assets/keyboard_frames/Switch.png" alt="Close-up of the VEX switch detail" loading="lazy" />
+              <div class="gallery__overlay">
+                <div class="gallery__overlay-content">
+                  <span class="gallery__label">SWITCH DETAIL</span>
+                  <span class="gallery__label-line"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gallery__card" id="gallery-rgb">
+            <div class="gallery__card-inner">
+              <img src="assets/keyboard_frames/RGB.png" alt="VEX keyboard with RGB lighting mode active" loading="lazy" />
+              <div class="gallery__overlay">
+                <div class="gallery__overlay-content">
+                  <span class="gallery__label">RGB MODE</span>
+                  <span class="gallery__label-line"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gallery__card" id="gallery-ideal">
+            <div class="gallery__card-inner">
+              <img src="assets/keyboard_frames/Ideal.png" alt="VEX keyboard in an ideal desk setup" loading="lazy" />
+              <div class="gallery__overlay">
+                <div class="gallery__overlay-content">
+                  <span class="gallery__label">IDEAL SETUP</span>
+                  <span class="gallery__label-line"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================
+         FOOTER
+    ============================================== -->
+    <footer id="footer" class="footer">
+      <div class="container">
+        <p class="footer__brand">VEX <span class="footer__year">© 2026</span></p>
+        <p class="footer__tagline">Crafted pixel by pixel. Switch by switch.</p>
+      </div>
+    </footer>
+
+    <!-- Main Script (deferred, after DOM) -->
+    <script src="script.js"></script>
+  </body>
+</html>
