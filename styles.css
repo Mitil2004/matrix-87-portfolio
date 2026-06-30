@@ -375,7 +375,7 @@ input, textarea, select { font: inherit; }
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100dvh; /* dvh prevents layout jump when mobile address bar collapses */
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -404,6 +404,14 @@ input, textarea, select { font: inherit; }
   object-fit: contain;
   z-index: 1;
   background: transparent;
+}
+
+/* Scale up the canvas on portrait mobile so the landscape keyboard
+   fills more of the narrow screen width */
+@media (max-width: 768px) and (orientation: portrait) {
+  .explode-canvas {
+    transform: translate(-50%, -50%) scale(1.8);
+  }
 }
 
 /* ── Corner brackets ── */

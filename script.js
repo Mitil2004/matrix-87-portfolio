@@ -8,6 +8,10 @@
    ============================================================ */
 gsap.registerPlugin(ScrollTrigger);
 
+// Prevent GSAP from recalculating ScrollTrigger positions on every tiny
+// resize event fired by the mobile browser address bar expanding/collapsing.
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 /* ============================================================
    1. CONSTANTS & CONFIG
    ============================================================ */
