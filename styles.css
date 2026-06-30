@@ -407,10 +407,28 @@ input, textarea, select { font: inherit; }
 }
 
 /* Scale up the canvas on portrait mobile so the landscape keyboard
-   fills more of the narrow screen width */
+   fills more of the narrow screen width.
+   Fix 2 — increased to scale(2.5) for better coverage.
+   Fix 3 — center GSAP UI overlays so they don't fly off screen. */
 @media (max-width: 768px) and (orientation: portrait) {
   .explode-canvas {
-    transform: translate(-50%, -50%) scale(1.8);
+    transform: translate(-50%, -50%) scale(2.5);
+  }
+
+  /* Center animated text overlays */
+  .ui-overlay {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    padding: 0 1.5rem;
+    text-align: center !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ui-overlay * {
+    text-align: center !important;
   }
 }
 
@@ -902,6 +920,12 @@ input, textarea, select { font: inherit; }
 @media (max-width: 768px) {
   .section--hero { text-align: center; }
   .hero__subtitle { max-width: 100%; }
+
+  /* Fix 1 — prevent "Perfectionists" overflowing on narrow screens */
+  .hero__title {
+    font-size: clamp(2.5rem, 13vw, 5rem);
+    word-wrap: break-word;
+  }
 
   .section--hero .container {
     display: flex;
