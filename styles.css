@@ -930,7 +930,7 @@ input, textarea, select { font: inherit; }
   .section--hero { text-align: center; }
   .hero__subtitle { max-width: 100%; }
 
-  /* Fix 1 — prevent "Perfectionists" overflowing on narrow screens */
+  /* Prevent "Perfectionists" overflowing on narrow screens */
   .hero__title {
     font-size: clamp(2.5rem, 13vw, 5rem);
     word-wrap: break-word;
@@ -952,7 +952,57 @@ input, textarea, select { font: inherit; }
 
   .nav__links { gap: 1.25rem; }
 
-  .callout { display: none; } /* hide overlays on small screens */
+  /* ── Callouts: static document-flow cards on mobile ──
+     Replaced with .mobile-no-anim class via JS.
+     The original absolute positioning is overridden so cards
+     stack naturally below the canvas as the user scrolls. */
+  .callout {
+    display: none; /* hidden unless .mobile-no-anim is applied by JS */
+  }
+
+  /* When JS adds .mobile-no-anim, callout becomes a readable static card */
+  .mobile-no-anim {
+    display: flex !important;           /* override display:none */
+    opacity: 1 !important;              /* override GSAP opacity:0 */
+    visibility: visible !important;     /* bulletproof visibility */
+    position: static !important;        /* pull out of absolute stacking */
+    transform: none !important;         /* remove translate/slide offsets */
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: var(--space-lg) var(--space-xl);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    pointer-events: auto !important;
+  }
+
+  /* Wrapper that holds the static callout cards below the canvas */
+  .mobile-callouts-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    padding: var(--space-xl) var(--space-xl);
+    background: #050505;
+  }
+
+  /* Force-show all other GSAP-animated elements on mobile
+     (belt-and-suspenders on top of the JS IS_MOBILE guards) */
+  .ui-overlay,
+  .hero__eyebrow,
+  .hero__title,
+  .hero__subtitle,
+  #hero-cta,
+  .section__title,
+  .feature-card,
+  .spec-row,
+  .gallery__card,
+  #footer {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
 }
 
 @media (max-width: 480px) {

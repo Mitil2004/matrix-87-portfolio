@@ -210,9 +210,33 @@ function initCallouts() {
     { el: '#callout-3', inStart: 0.70, inEnd: 0.82, outStart: 0.93, outEnd: 1.00 },
   ];
 
-  // On mobile, CSS already hides .callout via display:none (max-width:768px block).
-  // Skip all GSAP logic so we never force opacity:0 on these elements.
-  if (IS_MOBILE) return;
+  if (IS_MOBILE) {
+    // On mobile: convert callouts into normal static document-flow cards.
+    // We create a wrapper div after the sticky canvas section, move each
+    // callout into it, and add .mobile-no-anim so CSS makes them visible.
+    const stickyEl = document.getElementById('explode-sticky');
+    const explodeSection = document.getElementById('explode-section');
+
+    if (stickyEl && explodeSection) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'mobile-callouts-wrapper';
+
+      callouts.forEach(({ el }) => {
+        const node = document.querySelector(el);
+        if (!node) return;
+        // Remove GSAP's inline opacity:0 (set before this runs) just in case
+        node.style.removeProperty('opacity');
+        node.style.removeProperty('transform');
+        // Add the class that CSS uses to override positioning
+        node.classList.add('mobile-no-anim');
+        wrapper.appendChild(node);
+      });
+
+      // Insert the wrapper after the explode section so it sits in document flow
+      explodeSection.insertAdjacentElement('afterend', wrapper);
+    }
+    return; // skip all GSAP / ScrollTrigger logic
+  }
 
   /**
    * Desktop only — each callout:
