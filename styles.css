@@ -409,9 +409,13 @@ input, textarea, select { font: inherit; }
 /* Portrait mobile: optimised canvas scale + force-visible GSAP overlays */
 @media (max-width: 768px) and (orientation: portrait) {
 
-  /* Fix 1 — dialled back to 1.5 so the full keyboard stays in frame */
+  /* Fix 1 — let the browser scale the canvas to fit the full screen width
+     without cropping, regardless of the phone's aspect ratio */
   .explode-canvas {
-    transform: translate(-50%, -50%) scale(1.5);
+    width: 100vw;
+    height: auto;
+    object-fit: contain;
+    transform: translate(-50%, -50%); /* keep centred, no manual scale */
   }
 
   /* Fix 2 — force GSAP text overlays to be visible and centred */
